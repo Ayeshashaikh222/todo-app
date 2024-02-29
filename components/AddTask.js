@@ -1,22 +1,28 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useRef } from 'react';
 
 const AddTask = ({ onAdd }) => {
-    const [task, setTask] = useState('');
+    const taskInputRef = useRef();
 
-    const addTaskHandler = () => {
-        if (task.trim() !== '') {
-            onAdd(task);
-            setTask('');
+    const submitHandler = (event) => {
+        event.preventDefault();
+
+        const enteredTask = taskInputRef.current.Value;
+
+        const taskData = {
+            text: enteredTask,
         }
-    };
+        onAdd(taskData);
+    }
 
     return (
         <div>
-            <input type="text" value={task} onChange={(e) => setTask(e.target.value)} />
-            <button onClick={addTaskHandler}>Add Task</button>
+            <form onSubmit={submitHandler}  >
+                <input type="text" ref={taskInputRef} />
+                <button >Add Task</button>
+            </form>
         </div>
     );
-}
 
+}
 export default AddTask;
